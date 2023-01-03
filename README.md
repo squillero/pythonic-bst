@@ -20,9 +20,9 @@ foo = BST()
 * Iterate backward: `for k, v in reversed(foo): ...`
 * Iterate forward on keys $k \in [k_1, k_2[$: `for k, v in foo[k1:k2]: ...`
 * Iterate backward on keys $k \in ]k_1, k_2]$: `for k, v in foo[k2:k1:-1]: ...`
-* Get a list with all the keys: `foo.keys()`
-* Get a list with all the values: `foo.values()`
-* Get a list with all (key, value) pairs: `foo.items()`
+* Generate all the keys: `foo.keys()`
+* Generate all the values: `foo.values()`
+* Generate all (key, value) pairs: `foo.items()`
 * Standard BST-esque visits: `foo.visit_in_order()`, `foo.visit_pre_order()`, `foo.visit_post_order()`
 
 **Copyright © 2022 by Giovanni Squillero**  
