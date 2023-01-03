@@ -7,6 +7,7 @@
 # SPDX-License-Identifier: 0BSD
 
 import logging
+from collections import defaultdict
 
 
 class _Node:
@@ -68,6 +69,9 @@ class _Node:
     def __str__(self):
         return f"{_Node.n2s(self)} <{_Node.n2s(self.left)} ^{_Node.n2s(self.parent)} >{_Node.n2s(self.right)}"
 
+    def __hash__(self):
+        return hash(self._key)
+
     def __eq__(self, other):
         return other is not None and self._key == other._key
 
@@ -81,48 +85,84 @@ class _Node:
 class BST:
     """A minimalistic, unbalanced Binary Search Tree written in pure Python.
 
-    The `bst` works almost like a `dict`, but keys are kept sorted and slicing is partially supported.
-
-    Exploit lazy execution when possible, all relevant operations are O(log) complexity.
-
-
+    The `bst` works almost like a `dict`, but keys are kept sorted and slicing is partially supported. \\
+    The methods exploit lazy execution when possible, all relevant operations are O(log) complexity.
     """
 
-    def __init__(self):
+    def __init__(self, init=None):
         self._root = None
         self._min_node = None
         self._max_node = None
         self._num_nodes = 0
+        if init is not None:
+            order = list()
+            elements = sorted(list(init))
+            BST._order_list(elements, 0, len(elements), order)
+            for k, v in order:
+                self.add(k, v)
 
-    def add(self, key, value):
-        """Add a node in the BST. Keys must be mutually comparable."""
+    @property
+    def density(self):
+        os = defaultdict(int)
+        BST._update_offspring_size(self._root, os)
+        return 1 - sum(o == 1 for o in os.values()) / sum(o > 0 for o in os.values())
 
-        new_node = _Node(key, value)
-        last_node = None
-        current_node = self._root
-        while current_node is not None:
-            last_node = current_node
-            if new_node == current_node:
-                current_node.value = value
-                break
-            elif new_node > current_node:
-                current_node = current_node.right
-            elif new_node < current_node:
-                current_node = current_node.left
-        else:
-            self._num_nodes += 1
-            if last_node is None:
-                self._min_node = new_node
-                self._max_node = new_node
-                self._root = new_node
-            elif new_node > last_node:
-                if new_node > self._max_node:
-                    self._max_node = new_node
-                last_node.right = new_node
-            else:
-                if new_node < self._min_node:
-                    self._min_node = new_node
-                last_node.left = new_node
+    @property
+    def unbalance(self):
+        os = defaultdict(int)
+        BST._update_offspring_size(self._root, os)
+        pl = defaultdict(int)
+        BST._update_path_length(self._root, pl)
+        paths = [p for k, p in pl.items() if os[k] < 2]
+        #logging.debug(f"stat: Path length to leaf: min={1+min(paths)} / max={1+max(paths)}")
+        return (max(paths) - min(paths)) / (1 + max(paths))
+
+    @staticmethod
+    def _order_list(seq, start, end, solution):
+        if start >= end:
+            return
+        m = start + (end - start) // 2
+        solution.append(seq[m])
+        BST._order_list(seq, start, m, solution)
+        BST._order_list(seq, m + 1, end, solution)
+
+    @staticmethod
+    def _visit(node, pre_order=None, in_order=None, post_order=None):
+        """Generic recursive visit in pre-/in-/post- order"""
+        assert sum([pre_order is not None, in_order is not None, post_order
+                    is not None]) == 1, f"Exactly one type of visit must be specified."
+        if node is not None:
+            if pre_order is not None:
+                pre_order.append((node.key, node.value))
+                BST._visit(node.left, pre_order, in_order, post_order)
+                BST._visit(node.right, pre_order, in_order, post_order)
+            if in_order is not None:
+                BST._visit(node.left, pre_order, in_order, post_order)
+                in_order.append((node.key, node.value))
+                BST._visit(node.right, pre_order, in_order, post_order)
+            if post_order is not None:
+                BST._visit(node.left, pre_order, in_order, post_order)
+                BST._visit(node.right, pre_order, in_order, post_order)
+                post_order.append((node.key, node.value))
+
+    @staticmethod
+    def _update_offspring_size(node, size):
+        size[node.key] += 0
+        if node.left:
+            size[node.key] += 1
+            BST._update_offspring_size(node.left, size)
+        if node.right:
+            size[node.key] += 1
+            BST._update_offspring_size(node.right, size)
+
+    @staticmethod
+    def _update_path_length(node, path_len):
+        if node.left:
+            path_len[node.left.key] = path_len[node.key] + 1
+            BST._update_path_length(node.left, path_len)
+        if node.right:
+            path_len[node.right.key] = path_len[node.key] + 1
+            BST._update_path_length(node.right, path_len)
 
     def _get_min(self):
         """Get node with minimum key"""
@@ -142,19 +182,6 @@ class BST:
             node = node.right
         logging.debug(f"MAX: {node}")
         return node
-
-    def delete(self, key):
-        """Delete the pair (key, value) from the BST."""
-        node = self._find_node(key, croak=True)
-        update_min = node == self._min_node
-        update_max = node == self._max_node
-
-        self._delete(node)
-        if update_max:
-            self._max_node = self._get_max()
-        if update_min:
-            self._min_node = self._get_min()
-        self._num_nodes -= 1
 
     def _replace_node(self, old_node, new_node):
         """Replace old_node with new_node in old_node's parent."""
@@ -182,43 +209,6 @@ class BST:
             k, v = successor.key, successor.value
             self._delete(successor)
             node._key, node._value = k, v
-
-    @staticmethod
-    def _visit(node, pre_order=None, in_order=None, post_order=None):
-        """Generic recursive visit in pre-/in-/post- order"""
-        assert sum([pre_order is not None, in_order is not None, post_order
-                    is not None]) == 1, f"Exactly one type of visit must be specified."
-        if node is not None:
-            if pre_order is not None:
-                pre_order.append((node.key, node.value))
-                BST._visit(node.left, pre_order, in_order, post_order)
-                BST._visit(node.right, pre_order, in_order, post_order)
-            if in_order is not None:
-                BST._visit(node.left, pre_order, in_order, post_order)
-                in_order.append((node.key, node.value))
-                BST._visit(node.right, pre_order, in_order, post_order)
-            if post_order is not None:
-                BST._visit(node.left, pre_order, in_order, post_order)
-                BST._visit(node.right, pre_order, in_order, post_order)
-                post_order.append((node.key, node.value))
-
-    def visit_in_order(self):
-        """Returns all the (key, value) pairs through an in-order visit"""
-        ret = list()
-        BST._visit(self._root, in_order=ret)
-        return ret
-
-    def visit_pre_order(self):
-        """Returns all the (key, value) pairs through an pre-order visit"""
-        ret = list()
-        BST._visit(self._root, pre_order=ret)
-        return ret
-
-    def visit_post_order(self):
-        """Returns all the (key, value) pairs through a post-order visit"""
-        ret = list()
-        BST._visit(self._root, post_order=ret)
-        return ret
 
     def _find_node(self, key, croak=False):
         """Return the node with the given key, None if not present unless croaking"""
@@ -284,6 +274,67 @@ class BST:
         while node and (stop_key is None or node.key > stop_key):
             yield (node.key, node.value)
             node = self._predecessor(node)
+
+    def add(self, key, value):
+        """Add a node in the BST. Keys must be mutually comparable."""
+
+        new_node = _Node(key, value)
+        last_node = None
+        current_node = self._root
+        while current_node is not None:
+            last_node = current_node
+            if new_node == current_node:
+                current_node.value = value
+                break
+            elif new_node > current_node:
+                current_node = current_node.right
+            elif new_node < current_node:
+                current_node = current_node.left
+        else:
+            self._num_nodes += 1
+            if last_node is None:
+                self._min_node = new_node
+                self._max_node = new_node
+                self._root = new_node
+            elif new_node > last_node:
+                if new_node > self._max_node:
+                    self._max_node = new_node
+                last_node.right = new_node
+            else:
+                if new_node < self._min_node:
+                    self._min_node = new_node
+                last_node.left = new_node
+
+    def delete(self, key):
+        """Delete the pair (key, value) from the BST."""
+        node = self._find_node(key, croak=True)
+        update_min = node == self._min_node
+        update_max = node == self._max_node
+
+        self._delete(node)
+        if update_max:
+            self._max_node = self._get_max()
+        if update_min:
+            self._min_node = self._get_min()
+        self._num_nodes -= 1
+
+    def visit_in_order(self):
+        """Returns all the (key, value) pairs through an in-order visit"""
+        ret = list()
+        BST._visit(self._root, in_order=ret)
+        return ret
+
+    def visit_pre_order(self):
+        """Returns all the (key, value) pairs through an pre-order visit"""
+        ret = list()
+        BST._visit(self._root, pre_order=ret)
+        return ret
+
+    def visit_post_order(self):
+        """Returns all the (key, value) pairs through a post-order visit"""
+        ret = list()
+        BST._visit(self._root, post_order=ret)
+        return ret
 
     def keys(self):
         return (k for k, _ in self._node_iterator())
