@@ -14,7 +14,7 @@ foo = BST()
 * Add/update an element: `foo[k] = v`
 * Remove an existing element: `rm foo[k]`
 * Count elements: `len(foo)`
-* Initialize from a dictionary or from any sequence of (key, value) pairs, including another BST: `foo = BST({23: 10, 18: 5})`
+* Initialize from a sequence of $(k, v)$ pairs: `foo = BST({23: 10, 18: 5})`
 * Check wether a key is present: `if k in foo: ...`
 * Check if the BST is not empty: `if foo: ...`
 * Iterate forward: `for k, v in foo: ...`
@@ -23,7 +23,7 @@ foo = BST()
 * Iterate backward on keys $k \in ]k_1, k_2]$: `for k, v in foo[k2:k1:-1]: ...`
 * Generate all the keys: `foo.keys()`
 * Generate all the values: `foo.values()`
-* Generate all (key, value) pairs: `foo.items()`
+* Generate all $(k, v)$ pairs: `foo.items()`
 * Standard BST-esque visits: `foo.visit_in_order()`, `foo.visit_pre_order()`, `foo.visit_post_order()`
 
 ## PERFORMANCES
