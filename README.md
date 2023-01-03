@@ -26,5 +26,4 @@ foo = BST()
 * Standard BST-esque visits: `foo.visit_in_order()`, `foo.visit_pre_order()`, `foo.visit_post_order()`
 
 **Copyright © 2022 by Giovanni Squillero**  
-Distributed under a *Free Public License* (also known as [*Zero-Clause BSD*](https://tldrlegal.com/license/bsd-0-clause-license)): anyone is free to use, copy, and modify this software for any
-purpose.
+Distributed under a *Free Public License* (also known as [*Zero-Clause BSD*](https://tldrlegal.com/license/bsd-0-clause-license)) that gives unlimited freedom without the requirement to include copyright notices, license texts, or disclaimers.
