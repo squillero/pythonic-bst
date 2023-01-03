@@ -8,13 +8,13 @@ The `bst` works almost like a `dict`, but keys are kept sorted and slicing is pa
 
 ```python
 from bst import BST
-foo = BST()
 ```
 
-* Add/update an element: `foo[k] = v`
-* Remove an existing element: `rm foo[k]`
-* Count elements: `len(foo)`
-* Initialize from a sequence of $(k, v)$ pairs: `foo = BST({23: 10, 18: 5})`
+* Create an empty BST: `foo = BST()`
+* Create a BST from a sequence of $(k, v)$ pairs: `foo = BST({23: 10, 18: 5})`
+* Add/update an item: `foo[k] = v`
+* Remove an existing item: `rm foo[k]`
+* Count items: `len(foo)`
 * Check wether a key is present: `if k in foo: ...`
 * Check if the BST is not empty: `if foo: ...`
 * Iterate forward: `for k, v in foo: ...`
@@ -39,7 +39,9 @@ bst.density, bst.unbalance
 
 may yield something like
 
-> `(0.5007653911148597, 0.86)`
+```python
+(0.5007653911148597, 0.86)
+```
 
 Initializing a BST from a sequence of `(key, value)` pairs would create an almost optimized data structure:
 
@@ -50,7 +52,9 @@ opt_bst.density, opt_bst.unbalance
 
 may yield something like
 
-> `(0.9073503634459752, 0.05)`
+```python
+(0.9073503634459752, 0.05)
+```
 
 **Copyright © 2022 by Giovanni Squillero**  
 Distributed under the *Free Public License* (also known as [*Zero-Clause BSD*](https://tldrlegal.com/license/bsd-0-clause-license)), which allows unlimited freedom with the software without any requirement to include legal notices. See the [license file](./LICENSE.md) for details.
