@@ -1,0 +1,14 @@
+# See: https://github.com/squillero/style/blob/master/python.md
+
+[tool.yapf]
+based_on_style = "google"
+blank_line_before_module_docstring = true
+column_limit = 120
+
+[tool.black]
+exclude = "(^\\.|^__pycache__)"
+include = '\.ipynb'
+line-length = 120
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
