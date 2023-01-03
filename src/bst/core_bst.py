@@ -62,6 +62,9 @@ class _Node:
         else:
             return f"({node._key!r}:{node._value!r})"
 
+    def __iter__(self):
+        return (i for i in [self._key, self._value])
+
     def __str__(self):
         return f"{_Node.n2s(self)} <{_Node.n2s(self.left)} ^{_Node.n2s(self.parent)} >{_Node.n2s(self.right)}"
 
@@ -262,7 +265,7 @@ class BST:
             node = node.parent
         return node
 
-    def node_iterator(self, start_key=None, stop_key=None):
+    def _node_iterator(self, start_key=None, stop_key=None):
         """Iterator on nodes using successor(n)."""
         if start_key is not None:
             node = self._find_node(start_key, croak=True)
@@ -272,20 +275,7 @@ class BST:
             yield (node.key, node.value)
             node = self._successor(node)
 
-    def keys(self):
-        return list(k for k, _ in self.node_iterator())
-
-    def values(self):
-        return list(v for _, v in self.node_iterator())
-
-    def items(self):
-        return list((k, v) for k, v in self.node_iterator())
-
-    def __iter__(self):
-        """Standard customizaton (forward iterator)"""
-        return ((k, v) for k, v in self.node_iterator())
-
-    def node_reverse_iterator(self, start_key=None, stop_key=None):
+    def _node_reverse_iterator(self, start_key=None, stop_key=None):
         """Iterator on nodes using successor(n)."""
         if start_key is not None:
             node = self._find_node(start_key, croak=True)
@@ -295,17 +285,30 @@ class BST:
             yield (node.key, node.value)
             node = self._predecessor(node)
 
+    def keys(self):
+        return (k for k, _ in self._node_iterator())
+
+    def values(self):
+        return (v for _, v in self._node_iterator())
+
+    def items(self):
+        return self._node_iterator()
+
+    def __iter__(self):
+        """Standard customizaton (forward iterator)"""
+        return self._node_iterator()
+
     def __reversed__(self):
         """Standard customizaton (reverse iterator)"""
-        return ((k, v) for k, v in self.node_reverse_iterator())
+        return self._node_reverse_iterator()
 
     def __getitem__(self, key):
         """Standard customizaton"""
         if isinstance(key, slice):
             if key.step is None or key.step == 1:
-                return list(n for n in self.node_iterator(key.start, key.stop))
+                return self._node_iterator(key.start, key.stop)
             elif key.step == -1:
-                return list(n for n in self.node_reverse_iterator(key.start, key.stop))
+                return self._node_reverse_iterator(key.start, key.stop)
             else:
                 assert abs(key.step) != 1, "Only +/-1 steps are supported in slicing"
         else:

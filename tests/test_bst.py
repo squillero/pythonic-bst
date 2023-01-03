@@ -1,5 +1,10 @@
-# (!) by Giovanni Squillero <giovanni.squillero@polito.it>
-# This is free and unencumbered software released into the public domain.
+# ___  _   _ ___ _  _ ____ _  _ _ ____    ___  ____ ___
+# |__]  \_/   |  |__| |  | |\ | | |       |__] [__   |
+# |      |    |  |  | |__| | \| | |___    |__] ___]  |
+# <=<=<<https://github.com/squillero/pythonic-bst>>=>=>
+
+# Copyright 2022 Giovanni Squillero.
+# SPDX-License-Identifier: 0BSD
 
 import logging
 import random
@@ -39,7 +44,7 @@ def test_add_remove_base():
 
 
 def test_add_remove_ext():
-    for loop in range(10):
+    for loop in range(42):
         x = BST()
         y = dict()
 
@@ -49,33 +54,34 @@ def test_add_remove_ext():
             x[k] = v
             y[k] = v
             assert len(x) == len(y)
-            assert x.keys() == sorted(y.keys())
-            assert x._min_node.key == min(x.keys())
-            assert x._max_node.key == max(x.keys())
+            assert list(x.keys()) == sorted(y.keys())
+            assert tuple(x._min_node) == min(x.items())
+            assert tuple(x._max_node) == max(x.items())
 
         while x and y:
             k = random.choice(list(y.keys()))
             assert len(x) == len(y)
-            assert x.keys() == sorted(y.keys())
+            assert list(x.keys()) == sorted(y.keys())
             assert x[k] == y[k]
-            assert x._min_node.key == min(x.keys())
-            assert x._max_node.key == max(x.keys())
+            assert tuple(x._min_node) == min(x.items())
+            assert tuple(x._max_node) == max(x.items())
             del x[k]
             del y[k]
-            assert len(x) == 0 or x._min_node.key == min(x.keys())
-            assert len(x) == 0 or x._max_node.key == max(x.keys())
+            assert len(x) == 0 or tuple(x._min_node) == min(x.items())
+            assert len(x) == 0 or tuple(x._max_node) == max(x.items())
             assert len(x) == len(y)
-            assert x.keys() == sorted(y.keys())
+            assert list(x.keys()) == sorted(y.keys())
 
 
 def test_slice():
-    refs = [(n, n) for n in list(range(1000))]
-    bst = BST()
-    keys = list(range(1000))
-    random.shuffle(keys)
-    for k in keys:
-        bst[k] = k
-    for rep in range(100):
-        a, b = random.randint(0, 1000 - 1), random.randint(0, 1000 - 1)
-        assert bst[a:b] == refs[a:b]
-        assert bst[a:b:-1] == refs[a:b:-1]
+    for loop in range(42):
+        refs = [(n, n) for n in list(range(1000))]
+        bst = BST()
+        keys = list(range(1000))
+        random.shuffle(keys)
+        for k in keys:
+            bst[k] = k
+        for rep in range(100):
+            a, b = random.randint(0, 1000 - 1), random.randint(0, 1000 - 1)
+            assert list(bst[a:b]) == list(refs[a:b])
+            assert list(bst[a:b:-1]) == list(refs[a:b:-1])
