@@ -2,7 +2,7 @@
 
 A minimalistic, unbalanced Binary Search Tree written in pure Python.
 
-The `bst` works almost like a `dict`, but keys are kept sorted and slicing is partially supported.The methods exploit *lazy execution* when possible, all relevant operations are $O(log)$ complexity.
+The `bst` works almost like a `dict`, but keys are kept sorted and slicing is partially supported. The methods exploit *lazy execution* when possible, all relevant operations are $O(log)$ complexity.
 
 ## BASIC USAGE
 
