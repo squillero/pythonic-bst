@@ -57,4 +57,4 @@ may yield something like
 ```
 
 **Copyright © 2022 by Giovanni Squillero**  
-Distributed under the *Free Public License* (also known as [*Zero-Clause BSD*](https://tldrlegal.com/license/bsd-0-clause-license)), which allows unlimited freedom with the software without any requirement to include legal notices. See the [license file](./LICENSE.md) for details.
+Distributed under a [Zero-Clause BSD License](https://tldrlegal.com/license/bsd-0-clause-license) (SPDX: [0BSD](https://spdx.org/licenses/0BSD.html)), which allows unlimited freedom with the software without any requirement to include legal notices. See the full [license file](./LICENSE.md) for details.
