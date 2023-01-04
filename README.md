@@ -10,33 +10,33 @@ The `bst` works almost like a `dict`, but keys are kept sorted and slicing is pa
 from bst import BST
 ```
 
-* Create an empty BST: `mybst = BST()`
-* Duplicate a BST: `mybst2 = BST(mybst)`
-* Convert from/to a dict:`mybst = BST(mydict)` / `mydict = dict(mybst)`
-* Create a BST from a sequence of $(k, v)$ pairs: `mybst = BST([(18, 5), (23, 10)])`
-* Add/update an item: `mybst[k] = v`
-* Remove an existing item: `rm mybst[k]`
-* Count items: `len(mybst)`
-* Check wether a key is present: `if k in mybst: ...`
-* Check if the BST is not empty: `if mybst: ...`
-* Iterate forward: `for k, v in mybst: ...`
-* Iterate backward: `for k, v in reversed(mybst): ...`
-* Iterate forward on keys $k \in [k_1, k_2[$: `for k, v in mybst[k1:k2]: ...`
-* Iterate backward on keys $k \in ]k_1, k_2]$: `for k, v in mybst[k2:k1:-1]: ...`
-* Generate all the keys: `mybst.keys()`
-* Generate all the values: `mybst.values()`
-* Generate all $(k, v)$ pairs: `mybst.items()`
-* Standard BST-esque visits: `mybst.visit_in_order()`, `mybst.visit_pre_order()`, `mybst.visit_post_order()`
+* Create an empty BST: `foo = BST()`
+* Duplicate a BST: `bar = BST(foo)`
+* Convert to/from a dict: `baz = dict(foo)` / `foo = BST(baz)`
+* Create a BST from a sequence of $(k, v)$ pairs: `foo = BST([(18, 5), (23, 10)])`
+* Add/update an item: `foo[k] = v`
+* Remove an existing item: `rm foo[k]`
+* Count items: `len(foo)`
+* Check wether a key is present: `if k in foo: ...`
+* Check if the BST is not empty: `if foo: ...`
+* Iterate forward: `for k, v in foo: ...`
+* Iterate backward: `for k, v in reversed(foo): ...`
+* Iterate forward on keys $k \in [k_1, k_2[$: `for k, v in foo[k1:k2]: ...`
+* Iterate backward on keys $k \in ]k_1, k_2]$: `for k, v in foo[k2:k1:-1]: ...`
+* Generate all the keys: `foo.keys()`
+* Generate all the values: `foo.values()`
+* Generate all $(k, v)$ pairs: `foo.items()`
+* Standard BST-esque visits: `foo.visit_in_order()`, `foo.visit_pre_order()`, `foo.visit_post_order()`
 
 ## PERFORMANCES
 
 The *density* (percentage of internal nodes that have two successors) and the *unbalance* (relative difference between the longest and the shortest path from the root) may be accessed as properties, although at a **significant** cost:
 
 ```python
-mybst = BST()
+foo = BST()
 for n in range(1_000_000):
-    mybst[random.random()] = n
-mybst.density, mybst.unbalance
+    foo[random.random()] = n
+foo.density, foo.unbalance
 ```
 
 may yield something like
@@ -48,8 +48,8 @@ may yield something like
 Initializing a BST from known data would create an almost optimized data structure:
 
 ```python
-mybst2 = BST(mybst)
-mybst2.density, mybst2.unbalance
+bar = BST(foo)
+bar.density, bar.unbalance
 ```
 
 may yield something like
