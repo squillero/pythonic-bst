@@ -11,7 +11,8 @@ from bst import BST
 ```
 
 * Create an empty BST: `foo = BST()`
-* Create a BST from a sequence of $(k, v)$ pairs: `foo = BST({23: 10, 18: 5})`
+* Convert from/to a dict:`foo = BST(bar)` / `bar = dict(foo)`
+* Create a BST from a sequence of $(k, v)$ pairs: `foo = BST([(18, 5), (23, 10)])`
 * Add/update an item: `foo[k] = v`
 * Remove an existing item: `rm foo[k]`
 * Count items: `len(foo)`
@@ -43,7 +44,7 @@ may yield something like
 (0.5007653911148597, 0.86)
 ```
 
-Initializing a BST from a sequence of `(key, value)` pairs would create an almost optimized data structure:
+Initializing a BST from known data would create an almost optimized data structure:
 
 ```python
 opt_bst = BST(bst)

@@ -6,6 +6,6 @@
 # Copyright 2022 Giovanni Squillero.
 # SPDX-License-Identifier: 0BSD
 
-"""Yeah!"""
+__version__ = '1.0.0'
 
 from .core import BST

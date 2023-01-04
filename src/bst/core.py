@@ -94,6 +94,8 @@ class BST:
         self._min_node = None
         self._max_node = None
         self._num_nodes = 0
+        if isinstance(init, dict):
+            init = init.items()
         if init is not None:
             order = list()
             elements = sorted(list(init))
