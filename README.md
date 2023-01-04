@@ -10,23 +10,23 @@ The `bst` works almost like a `dict`, but keys are kept sorted and slicing is pa
 from bst import BST
 ```
 
-* Create an empty BST: `foo = BST()`
-* Duplicate a BST: `bar = BST(foo)`
-* Convert from/to a dict:`foo = BST(mydict)` / `mydict = dict(foo)`
-* Create a BST from a sequence of $(k, v)$ pairs: `foo = BST([(18, 5), (23, 10)])`
-* Add/update an item: `foo[k] = v`
-* Remove an existing item: `rm foo[k]`
-* Count items: `len(foo)`
-* Check wether a key is present: `if k in foo: ...`
-* Check if the BST is not empty: `if foo: ...`
-* Iterate forward: `for k, v in foo: ...`
-* Iterate backward: `for k, v in reversed(foo): ...`
-* Iterate forward on keys $k \in [k_1, k_2[$: `for k, v in foo[k1:k2]: ...`
-* Iterate backward on keys $k \in ]k_1, k_2]$: `for k, v in foo[k2:k1:-1]: ...`
-* Generate all the keys: `foo.keys()`
-* Generate all the values: `foo.values()`
-* Generate all $(k, v)$ pairs: `foo.items()`
-* Standard BST-esque visits: `foo.visit_in_order()`, `foo.visit_pre_order()`, `foo.visit_post_order()`
+* Create an empty BST: `bst = BST()`
+* Duplicate a BST: `bar = BST(bst)`
+* Convert from/to a dict:`bst = BST(mydict)` / `mydict = dict(bst)`
+* Create a BST from a sequence of $(k, v)$ pairs: `bst = BST([(18, 5), (23, 10)])`
+* Add/update an item: `bst[k] = v`
+* Remove an existing item: `rm bst[k]`
+* Count items: `len(bst)`
+* Check wether a key is present: `if k in bst: ...`
+* Check if the BST is not empty: `if bst: ...`
+* Iterate forward: `for k, v in bst: ...`
+* Iterate backward: `for k, v in reversed(bst): ...`
+* Iterate forward on keys $k \in [k_1, k_2[$: `for k, v in bst[k1:k2]: ...`
+* Iterate backward on keys $k \in ]k_1, k_2]$: `for k, v in bst[k2:k1:-1]: ...`
+* Generate all the keys: `bst.keys()`
+* Generate all the values: `bst.values()`
+* Generate all $(k, v)$ pairs: `bst.items()`
+* Standard BST-esque visits: `bst.visit_in_order()`, `bst.visit_pre_order()`, `bst.visit_post_order()`
 
 ## PERFORMANCES
 
