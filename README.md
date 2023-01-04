@@ -45,7 +45,7 @@ may yield something like
 (49, 0.4997143041393656, 0.8775510204081632)
 ```
 
-Initializing a BST from known data would create an optimized structure:
+Initializing a BST from known data creates an optimized structure:
 
 ```python
 bar = BST(foo)
