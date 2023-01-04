@@ -33,10 +33,10 @@ from bst import BST
 The *density* (percentage of internal nodes that have two successors) and the *unbalance* (relative difference between the longest and the shortest path from the root) may be accessed as properties, although at a **significant** cost:
 
 ```python
-bst = BST()
+mybst = BST()
 for n in range(1_000_000):
-    bst[random.random()] = n
-bst.density, bst.unbalance
+    mybst[random.random()] = n
+mybst.density, mybst.unbalance
 ```
 
 may yield something like
@@ -48,8 +48,8 @@ may yield something like
 Initializing a BST from known data would create an almost optimized data structure:
 
 ```python
-opt_bst = BST(bst)
-opt_bst.density, opt_bst.unbalance
+mybst2 = BST(mybst)
+mybst2.density, mybst2.unbalance
 ```
 
 may yield something like
