@@ -7,6 +7,7 @@
 # SPDX-License-Identifier: 0BSD
 
 import logging
+from math import nan
 from collections import defaultdict
 
 
@@ -104,18 +105,37 @@ class BST:
                 self.add(k, v)
 
     @property
+    def height(self):
+        if self._num_nodes == 0:
+            return 0
+        elif self._num_nodes == 1:
+            return 1
+        pl = defaultdict(int)
+        pl[self._root.key] = 0
+        BST._update_path_length(self._root, pl)
+        return 1 + max(pl.values())
+
+    @property
     def density(self):
+        if not self._root:
+            return nan
         os = defaultdict(int)
         BST._update_offspring_size(self._root, os)
+        if not sum(o > 0 for o in os.values()):
+            return nan
         return 1 - sum(o == 1 for o in os.values()) / sum(o > 0 for o in os.values())
 
     @property
     def unbalance(self):
+        if self._num_nodes < 1:
+            return nan
         os = defaultdict(int)
         BST._update_offspring_size(self._root, os)
         pl = defaultdict(int)
+        pl[self._root.key] = 0
         BST._update_path_length(self._root, pl)
         paths = [p for k, p in pl.items() if os[k] < 2]
+
         #logging.debug(f"stat: Path length to leaf: min={1+min(paths)} / max={1+max(paths)}")
         return (max(paths) - min(paths)) / (1 + max(paths))
 
