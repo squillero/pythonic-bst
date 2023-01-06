@@ -4,13 +4,15 @@ A minimalistic, unbalanced Binary Search Tree written in pure Python.
 
 The `BST` works almost like a `dict` with sorted keys, supporting slicing and broadcasting. The methods exploit *lazy execution* when possible, all relevant operations are $O(log)$ complexity.
 
-## NOTES
+**Notes**
 
-Keys must be comparable.
+* Keys must be comparable.
 
-All `slice`s are half-open. That is, `[k1:k2]` specifies keys $k_1 \le k < k_2$; while `[k2:k1:-1]` specifies keys $k_1 \ge k > k_2$ in reverse arder. Key `k1` must be present in the BST, key `k2` is never included.
+* Slices are half-open. That is, `[k1:k2]` specifies keys $k_1 \le k < k_2$; while `[k2:k1:-1]` specifies keys $k_1 \ge k > k_2$ in reverse arder. Key `k1` must be present in the BST, key `k2` is never included.
 
 ## BASIC USAGE
+
+Install with `pip install pythonic-bst`, then
 
 ```python
 from bst import BST
@@ -73,4 +75,4 @@ may yield something like
 ```
 
 **Copyright © 2022 by Giovanni Squillero**  
-Distributed under a [Zero-Clause BSD License](https://tldrlegal.com/license/bsd-0-clause-license) (SPDX: [0BSD](https://spdx.org/licenses/0BSD.html)), which allows unlimited freedom with the software without the requirement to include legal notices. See the full [license file](./LICENSE.md) for details.
+Distributed under a [Zero-Clause BSD License](https://tldrlegal.com/license/bsd-0-clause-license) (SPDX: [0BSD](https://spdx.org/licenses/0BSD.html)), which allows unlimited freedom with the software without the requirement to include legal notices. See the full license for details.

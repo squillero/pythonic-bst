@@ -19,12 +19,15 @@ classifiers = [
 ]
 dependencies = []
 description = "Read the latest Real Python tutorials"
-keywords = ["feed", "reader", "tutorial"]
-license = {file = "LICENSE.md"}
-name = "bst"
+keywords = ["Binary Search Tree", "Data Structure"]
+license = {"text" = "0BSD"}
+name = "pythonic-bst"
 readme = "README.md"
 requires-python = ">=3.7"
 version = "0.1.3"
+
+[project.urls]
+Homepage = "https://github.com/squillero/pythonic-bst"
 
 [project.optional-dependencies]
 dev = ["pytest"]
