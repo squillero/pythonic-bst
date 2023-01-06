@@ -19,7 +19,7 @@ classifiers = [
 ]
 dependencies = []
 description = "Read the latest Real Python tutorials"
-keywords = ["Binary Search Tree", "Data Structure"]
+keywords = ["Binary Search Tree", "Data Structures", "BST"]
 license = {"text" = "0BSD"}
 name = "pythonic-bst"
 readme = "README.md"

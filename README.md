@@ -1,18 +1,18 @@
 # PYTHONIC BST
 
-A minimalistic, unbalanced Binary Search Tree written in pure Python.
+A minimalistic, unbalanced Binary Search Tree written in pure Python. Originally developed as an example in a Python course.
 
-The `BST` works almost like a `dict` with sorted keys, supporting slicing and broadcasting. The methods exploit *lazy execution* when possible, all relevant operations are $O(log)$ complexity.
-
-**Notes**
-
-* Keys must be comparable.
-
-* Slices are half-open. That is, `[k1:k2]` specifies keys $k_1 \le k < k_2$; while `[k2:k1:-1]` specifies keys $k_1 \ge k > k_2$ in reverse arder. Key `k1` must be present in the BST, key `k2` is never included.
+The class `BST` works almost like a `dict` with sorted keys, and supports slicing and broadcasting. The methods exploit *lazy execution* when possible, all relevant operations are $O(log)$ complexity.
 
 ## BASIC USAGE
 
-Install with `pip install pythonic-bst`, then
+Install the latest stable version from PyPi:
+
+```shell
+~$ pip install pythonic-bst
+```
+
+then
 
 ```python
 from bst import BST
@@ -44,6 +44,8 @@ A dictionary may be used directly to initialize a BST and vice-versa.
 * Create a dictionary from a BST: `baz = dict(foo)`
 
 ## SLICING / BROADCASTING
+
+**Notes:** Slices are half-open. In `[k1:k2]`, key `k1` must be present in the BST, key `k2` is never included. The `step` can be `+1` (default) for *forward* and `-1` for *backward*.
 
 * Iterate forward on keys $k \in [k_1, k_2[$: `for k, v in foo[k1:k2]: ...`
 * Iterate backward on keys $k \in ]k_1, k_2]$: `for k, v in foo[k2:k1:-1]: ...`
