@@ -48,7 +48,7 @@ A dictionary may be used directly to initialize a BST and vice-versa.
 
 * Update the first three items with keys $k \in [k_1, k_2[$: `foo[k1:k2] = [v1, v2, v3]`
 * Set all items with keys $k < k_2$ to a specific value: `foo[:k2] = v`
-* Remove item $k_1$ and all subsequent ones: `rm foo[k1:]`
+* Remove item with key $k_1$ and all subsequent ones: `rm foo[k1:]`
 
 ## PERFORMANCES
 
