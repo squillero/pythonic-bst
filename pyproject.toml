@@ -18,7 +18,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
 ]
 dependencies = []
-description = "Read the latest Real Python tutorials"
+description = "Minimalistic, unbalanced Binary Search Tree"
 keywords = ["Binary Search Tree", "Data Structures", "BST"]
 license = {"text" = "0BSD"}
 name = "pythonic-bst"
