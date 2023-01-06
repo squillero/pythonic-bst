@@ -102,7 +102,7 @@ class BST:
             elements = sorted(list(init))
             BST._order_list(elements, 0, len(elements), order)
             for k, v in order:
-                self.add(k, v)
+                self.set(k, v)
 
     @property
     def height(self):
@@ -297,7 +297,7 @@ class BST:
             yield (node.key, node.value)
             node = self._predecessor(node)
 
-    def add(self, key, value):
+    def set(self, key, value):
         """Add a node in the BST. Keys must be mutually comparable."""
 
         new_node = _Node(key, value)
@@ -378,12 +378,7 @@ class BST:
     def __getitem__(self, key):
         """Standard customizaton"""
         if isinstance(key, slice):
-            if key.step is None or key.step == 1:
-                return self._node_iterator(key.start, key.stop)
-            elif key.step == -1:
-                return self._node_reverse_iterator(key.start, key.stop)
-            else:
-                assert abs(key.step) != 1, "Only +/-1 steps are supported in slicing"
+            return self._slice2iter(key)
         else:
             node = self._find_node(key, croak=True)
             if node is not None:
@@ -391,13 +386,35 @@ class BST:
             else:
                 return None
 
+    def _slice2iter(self, slice_):
+        if slice_.step is None or slice_.step == 1:
+            return self._node_iterator(slice_.start, slice_.stop)
+        elif slice_.step == -1:
+            return self._node_reverse_iterator(slice_.start, slice_.stop)
+        else:
+            assert abs(slice_.step) != 1, "Only +/-1 steps are supported in slicing"
+            return None
+
     def __setitem__(self, key, value):
         """Standard customizaton"""
-        self.add(key, value)
+        if not isinstance(key, slice):
+            self.set(key, value)
+        else:
+            keys = list(k for k, _ in self._slice2iter(key))
+            try:
+                values = list(value)
+            except TypeError:
+                values = [value] * len(keys)
+            for k, v in zip(keys, values):
+                self.set(k, v)
 
     def __delitem__(self, key):
         """Standard customizaton"""
-        self.delete(key)
+        if not isinstance(key, slice):
+            self.delete(key)
+        else:
+            for k in list(k for k, _ in self._slice2iter(key)):
+                self.delete(k)
 
     def __len__(self):
         """Standard customizaton"""
