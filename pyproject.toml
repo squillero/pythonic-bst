@@ -44,10 +44,10 @@ pythonpath = ["src"]
 
 [tool.bumpver]
 commit = true
-commit_message = "Bump version {old_version} -> {new_version}"
+commit_message = "Bump version from '{old_version}' to '{new_version}'"
 current_version = "0.1.1"
-push = false
-tag = false
+push = true
+tag = true
 version_pattern = "MAJOR.MINOR.PATCH"
 
 [tool.bumpver.file_patterns]
