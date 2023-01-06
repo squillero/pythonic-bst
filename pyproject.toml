@@ -24,7 +24,7 @@ license = {file = "LICENSE.md"}
 name = "bst"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "0.1.1"
+version = "0.1.2"
 
 [project.optional-dependencies]
 dev = ["pytest"]
@@ -44,8 +44,8 @@ pythonpath = ["src"]
 
 [tool.bumpver]
 commit = true
-commit_message = "Bump version from '{old_version}' to '{new_version}'"
-current_version = "0.1.1"
+commit_message = "Bump version from \'{old_version}\' to \'{new_version}\'"
+current_version = "0.1.2"
 push = true
 tag = true
 version_pattern = "MAJOR.MINOR.PATCH"
