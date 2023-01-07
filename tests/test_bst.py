@@ -8,7 +8,24 @@
 
 import logging
 import random
+from math import nan
+import pytest
+
 from bst import BST
+
+
+def create_random_bst(size):
+    bst = BST()
+    for n in range(size):
+        bst[random.random() * 2 - 1] = n + 1
+    bst[0] = 0
+    return bst
+
+
+def test_iter():
+    bst = create_random_bst(1000)
+    assert set(bst[::]) == set(bst[::-1])
+    assert set(iter(bst)) == set(reversed(bst))
 
 
 def test_add_remove_base():
@@ -28,6 +45,7 @@ def test_add_remove_base():
         while bst:
             logging.debug(f"")
             set(bst.keys()) == set(d.keys())
+            set(bst.values()) == set(d.values())
             elem = random.choice(list(bst.keys()))
             removed.add(elem)
             assert elem in bst, f"{removed}"
@@ -38,6 +56,8 @@ def test_add_remove_base():
             del d[elem]
             assert elem not in d
             del bst[elem]
+            with pytest.raises(KeyError):
+                print(bst[elem])
             assert elem not in bst, f"{elem} still in {list(bst)}"
             assert len(bst) == 0 or bst._min_node.key == min(bst.keys())
             assert len(bst) == 0 or bst._max_node.key == max(bst.keys())
@@ -85,3 +105,58 @@ def test_slice():
             a, b = random.randint(0, 1000 - 1), random.randint(0, 1000 - 1)
             assert list(bst[a:b]) == list(refs[a:b])
             assert list(bst[a:b:-1]) == list(refs[a:b:-1])
+        bst[10:100] = list(range(90))
+        bst[10:50] = None
+
+
+def test_slice_exception():
+    bst = BST((n, n) for n in range(10))
+    del bst[::]
+    bst = BST((n, n) for n in range(10))
+    del bst[::1]
+    bst = BST((n, n) for n in range(10))
+    del bst[::-1]
+    with pytest.raises(ValueError) as exc_info:
+        bst = BST((n, n) for n in range(10))
+        del bst[::2]
+    with pytest.raises(ValueError) as exc_info:
+        bst = BST((n, n) for n in range(10))
+        del bst[::-2]
+
+
+def test_init():
+    bst = create_random_bst(1_000)
+
+    list_ = list(bst)
+    list2_ = list(bst.items())
+    assert list_ == list2_
+
+    dict_ = dict(bst)
+    dict2_ = dict(bst.items())
+    assert dict_ == dict2_
+
+    bst_l = BST(list_)
+    bst_d = BST(dict_)
+    assert bst_l == bst
+    assert bst_d == bst
+
+
+def test_performances():
+    bst = BST()
+    assert (bst.height, bst.density, bst.unbalance) == (0, nan, nan)
+    bst[23] = 10
+    assert (bst.height, bst.density, bst.unbalance) == (1, nan, 0.0)
+    bst[18] = 5
+    assert (bst.height, bst.density, bst.unbalance) == (2, 0.0, 0.5)
+    for n in range(-20, 20, 1):
+        bst[n] = n
+    assert (bst.height, bst.density, bst.unbalance) == (40, 0.02564102564102566, 0.975)
+
+
+def test_visit():
+    bst = BST([n, n] for n in range(-5, 6))
+    assert bst.visit_in_order() == [(n, n) for n in range(-5, 6)]
+    assert bst.visit_post_order() == [(-5, -5), (-4, -4), (-2, -2), (-1, -1), (-3, -3), (1, 1),
+                                      (2, 2), (4, 4), (5, 5), (3, 3), (0, 0)]
+    assert bst.visit_pre_order() == [(0, 0), (-3, -3), (-4, -4), (-5, -5), (-1, -1), (-2, -2),
+                                     (3, 3), (2, 2), (1, 1), (5, 5), (4, 4)]

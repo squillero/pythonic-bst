@@ -70,23 +70,17 @@ class _Node:
     def __str__(self):
         return f"{_Node.n2s(self)} <{_Node.n2s(self.left)} ^{_Node.n2s(self.parent)} >{_Node.n2s(self.right)}"
 
-    def __hash__(self):
-        return hash(self._key)
-
     def __eq__(self, other):
         return other is not None and self._key == other._key
 
     def __lt__(self, other):
         return self._key < other._key
 
-    def __le__(self, other):
-        return self._key <= other._key
-
 
 class BST:
     """A minimalistic, unbalanced Binary Search Tree written in pure Python.
 
-    The `bst` works almost like a `dict`, but keys are kept sorted and slicing is partially supported. \\
+    The class `BST` works almost like a `dict` with sorted keys, and supports slicing and broadcasting.\\
     The methods exploit lazy execution when possible, all relevant operations are O(log) complexity.
     """
 
@@ -135,8 +129,6 @@ class BST:
         pl[self._root.key] = 0
         BST._update_path_length(self._root, pl)
         paths = [p for k, p in pl.items() if os[k] < 2]
-
-        #logging.debug(f"stat: Path length to leaf: min={1+min(paths)} / max={1+max(paths)}")
         return (max(paths) - min(paths)) / (1 + max(paths))
 
     @staticmethod
@@ -186,7 +178,7 @@ class BST:
             path_len[node.right.key] = path_len[node.key] + 1
             BST._update_path_length(node.right, path_len)
 
-    def _get_min(self):
+    def _find_min(self):
         """Get node with minimum key"""
         node = self._root
         if node is None:
@@ -195,7 +187,7 @@ class BST:
             node = node.left
         return node
 
-    def _get_max(self):
+    def _find_max(self):
         """Get node with maximum key"""
         node = self._root
         if node is None:
@@ -245,9 +237,13 @@ class BST:
         else:
             return node
 
-    def __contains__(self, key):
-        """Standard customizaton: in"""
-        return self._find_node(key) is not None
+    def _slice2iter(self, slice_):
+        if slice_.step is None or slice_.step == 1:
+            return self._node_iterator(slice_.start, slice_.stop)
+        elif slice_.step == -1:
+            return self._node_reverse_iterator(slice_.start, slice_.stop)
+        else:
+            raise ValueError("Only +/-1 steps are supported in slicing")
 
     def _successor(self, node):
         """Return the next node as in a in-order visit"""
@@ -298,7 +294,7 @@ class BST:
             node = self._predecessor(node)
 
     def set(self, key, value):
-        """Add a node in the BST. Keys must be mutually comparable."""
+        """Add a node in the BST. Note: Keys must be comparable."""
 
         new_node = _Node(key, value)
         last_node = None
@@ -335,9 +331,9 @@ class BST:
 
         self._delete(node)
         if update_max:
-            self._max_node = self._get_max()
+            self._max_node = self._find_max()
         if update_min:
-            self._min_node = self._get_min()
+            self._min_node = self._find_min()
         self._num_nodes -= 1
 
     def visit_in_order(self):
@@ -367,6 +363,18 @@ class BST:
     def items(self):
         return self._node_iterator()
 
+    def __len__(self):
+        """Standard customizaton: len(bst)"""
+        return self._num_nodes
+
+    def __eq__(self, other):
+        """Standard customizaton: =="""
+        return len(self) == len(other) and all(n1 == n2 for n1, n2 in zip(self, other))
+
+    def __contains__(self, key):
+        """Standard customizaton: k in bst"""
+        return self._find_node(key) is not None
+
     def __iter__(self):
         """Standard customizaton (forward iterator)"""
         return self._node_iterator()
@@ -380,23 +388,10 @@ class BST:
         if isinstance(key, slice):
             return self._slice2iter(key)
         else:
-            node = self._find_node(key, croak=True)
-            if node is not None:
-                return node.value
-            else:
-                return None
-
-    def _slice2iter(self, slice_):
-        if slice_.step is None or slice_.step == 1:
-            return self._node_iterator(slice_.start, slice_.stop)
-        elif slice_.step == -1:
-            return self._node_reverse_iterator(slice_.start, slice_.stop)
-        else:
-            assert abs(slice_.step) != 1, "Only +/-1 steps are supported in slicing"
-            return None
+            return self._find_node(key, croak=True).value
 
     def __setitem__(self, key, value):
-        """Standard customizaton"""
+        """Standard customizaton: bst[*] = *"""
         if not isinstance(key, slice):
             self.set(key, value)
         else:
@@ -409,13 +404,9 @@ class BST:
                 self.set(k, v)
 
     def __delitem__(self, key):
-        """Standard customizaton"""
+        """Standard customizaton: bst[k]"""
         if not isinstance(key, slice):
             self.delete(key)
         else:
             for k in list(k for k, _ in self._slice2iter(key)):
                 self.delete(k)
-
-    def __len__(self):
-        """Standard customizaton"""
-        return self._num_nodes
