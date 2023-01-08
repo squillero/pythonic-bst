@@ -24,7 +24,7 @@ license = {"text" = "0BSD"}
 name = "pythonic-bst"
 readme = "README.md"
 requires-python = ">=3.7"
-version = "1.0.2"
+version = "1.0.3"
 
 [project.urls]
 Homepage = "https://github.com/squillero/pythonic-bst"
@@ -48,7 +48,7 @@ pythonpath = ["src"]
 [tool.bumpver]
 commit = true
 commit_message = "Bump version from {old_version} to {new_version}"
-current_version = "1.0.2"
+current_version = "1.0.3"
 push = true
 tag = true
 version_pattern = "MAJOR.MINOR.PATCH"

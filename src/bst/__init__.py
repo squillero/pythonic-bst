@@ -6,7 +6,7 @@
 # Copyright 2023 Giovanni Squillero.
 # SPDX-License-Identifier: 0BSD
 
-__version__ = '1.0.2'
+__version__ = '1.0.3'
 __author__ = 'Giovanni Squillero'
 __copyright__ = "Copyright 2023 Giovanni Squillero"
 __license__ = '0BSD'
