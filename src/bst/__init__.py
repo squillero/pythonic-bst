@@ -3,9 +3,17 @@
 # |      |    |  |  | |__| | \| | |___    |__] ___]  |
 # <=<=<<https://github.com/squillero/pythonic-bst>>=>=>
 
-# Copyright 2022 Giovanni Squillero.
+# Copyright 2023 Giovanni Squillero.
 # SPDX-License-Identifier: 0BSD
 
 __version__ = '1.0.2'
+__author__ = 'Giovanni Squillero'
+__copyright__ = "Copyright 2023 Giovanni Squillero"
+__license__ = '0BSD'
+__homepage__ = 'https://github.com/squillero/pythonic-bst'
+
+__maintainer__ = "Giovanni Squillero"
+__email__ = "giovanni.squillero@polito.it"
+__status__ = "Production"
 
 from .core import BST

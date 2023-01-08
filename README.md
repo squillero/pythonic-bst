@@ -80,5 +80,5 @@ may yield something like
 
 Some unsystematic unit test has been implemented using [pytest](https://docs.pytest.org/) and [Coverage.py](https://coverage.readthedocs.io).
 
-**Copyright © 2022 by Giovanni Squillero**  
+**Copyright © 2023 by Giovanni Squillero**  
 Distributed under a [Zero-Clause BSD License](https://tldrlegal.com/license/bsd-0-clause-license) (SPDX: [0BSD](https://spdx.org/licenses/0BSD.html)), which allows unlimited freedom with the software without the requirement to include legal notices. See the full license for details.

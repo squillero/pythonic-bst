@@ -1,4 +1,4 @@
-Copyright (c) 2022 by Giovanni Squillero <<giovanni.squillero@polito.it>>
+Copyright (c) 2023 by Giovanni Squillero <<giovanni.squillero@polito.it>>
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted.

@@ -3,7 +3,7 @@
 # |      |    |  |  | |__| | \| | |___    |__] ___]  |
 # <=<=<<https://github.com/squillero/pythonic-bst>>=>=>
 
-# Copyright 2022 Giovanni Squillero.
+# Copyright 2023 Giovanni Squillero.
 # SPDX-License-Identifier: 0BSD
 
 #bumpver update --patch
