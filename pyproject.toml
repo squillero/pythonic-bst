@@ -59,3 +59,6 @@ version_pattern = "MAJOR.MINOR.PATCH"
 
 [tool.coverage.run]
 branch = true
+
+[tool.coverage.report]
+omit = ['tests/*']
